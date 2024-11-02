@@ -1,6 +1,10 @@
-#custom vscode commands go here
+# Custom VSCode commands
+
+# Define the application and cursor for the commands
 app: vscode
 -
+
+# Tag definitions for various user commands
 tag(): user.find_and_replace
 tag(): user.line_commands
 tag(): user.multiple_cursors
@@ -8,15 +12,17 @@ tag(): user.splits
 tag(): user.tabs
 tag(): user.command_search
 
+# Window management commands
 window reload: user.vscode("workbench.action.reloadWindow")
 window close: user.vscode("workbench.action.closeWindow")
-#multiple_cursor.py support end
+# multiple_cursor.py support end
 
+# Open a specific view
 go view [<user.text>]:
     user.vscode("workbench.action.openView")
     insert(user.text or "")
 
-# Sidebar
+# Sidebar management commands
 bar explore: user.vscode("workbench.view.explorer")
 bar extensions: user.vscode("workbench.view.extensions")
 bar outline: user.vscode("outline.focus")
@@ -26,18 +32,18 @@ bar source: user.vscode("workbench.view.scm")
 bar test: user.vscode("workbench.view.testing.focus")
 bar switch: user.vscode("workbench.action.toggleSidebarVisibility")
 
-# Symbol search
-symbol hunt [<user.text>]:
+# Symbol search commands
+symbol (hunt | forage | search) [<user.text>]:
     user.vscode("workbench.action.gotoSymbol")
     sleep(50ms)
     insert(text or "")
 
-symbol hunt all [<user.text>]:
+symbol (hunt | forage | search) all [<user.text>]:
     user.vscode("workbench.action.showAllSymbols")
     sleep(50ms)
     insert(text or "")
 
-# Panels
+# Panel management commands
 panel control: user.vscode("workbench.panel.repl.view.focus")
 panel output: user.vscode("workbench.panel.output.focus")
 panel problems: user.vscode("workbench.panel.markers.view.focus")
@@ -45,7 +51,7 @@ panel switch: user.vscode("workbench.action.togglePanel")
 panel terminal: user.vscode("workbench.action.terminal.focus")
 focus editor: user.vscode("workbench.action.focusActiveEditorGroup")
 
-# Settings
+# Settings management commands
 show settings: user.vscode("workbench.action.openGlobalSettings")
 show settings json: user.vscode("workbench.action.openSettingsJson")
 show settings folder: user.vscode("workbench.action.openFolderSettings")
@@ -56,26 +62,28 @@ show shortcuts: user.vscode("workbench.action.openGlobalKeybindings")
 show shortcuts json: user.vscode("workbench.action.openGlobalKeybindingsFile")
 show snippets: user.vscode("workbench.action.openSnippets")
 
-# VSCode Snippets
+# VSCode snippet management commands
 snip (last | previous): user.vscode("jumpToPrevSnippetPlaceholder")
 snip next: user.vscode("jumpToNextSnippetPlaceholder")
 
-# Display
+# Display management commands
 centered switch: user.vscode("workbench.action.toggleCenteredLayout")
 fullscreen switch: user.vscode("workbench.action.toggleFullScreen")
 theme switch: user.vscode("workbench.action.selectTheme")
 wrap switch: user.vscode("editor.action.toggleWordWrap")
 zen switch: user.vscode("workbench.action.toggleZenMode")
 
-# File Commands
-file hunt [<user.text>]:
+# File management commands
+file (hunt | forage | search) [<user.text>]:
     user.vscode("workbench.action.quickOpen")
     sleep(50ms)
     insert(text or "")
-file hunt (pace | paste):
+
+file (hunt | forage | search) (pace | paste):
     user.vscode("workbench.action.quickOpen")
     sleep(50ms)
     edit.paste()
+
 file copy name: user.vscode("fileutils.copyFileName")
 file copy path: user.vscode("copyFilePath")
 file copy local [path]: user.vscode("copyRelativeFilePath")
@@ -99,7 +107,7 @@ file open folder: user.vscode("revealFileInOS")
 file reveal: user.vscode("workbench.files.action.showActiveFileInExplorer")
 save ugly: user.vscode("workbench.action.files.saveWithoutFormatting")
 
-# Language Features
+# Language feature commands
 suggest show: user.vscode("editor.action.triggerSuggest")
 hint show: user.vscode("editor.action.triggerParameterHints")
 definition show: user.vscode("editor.action.revealDefinition")
@@ -121,13 +129,14 @@ language switch: user.vscode("workbench.action.editor.changeLanguageMode")
 refactor rename: user.vscode("editor.action.rename")
 refactor this: user.vscode("editor.action.refactor")
 
-#code navigation
+# Code navigation commands
 (go declaration | follow): user.vscode("editor.action.revealDefinition")
 go back: user.vscode("workbench.action.navigateBack")
 go forward: user.vscode("workbench.action.navigateForward")
 go implementation: user.vscode("editor.action.goToImplementation")
 go type: user.vscode("editor.action.goToTypeDefinition")
-go usage: user.vscode("references-view.find")
+go definition: user.vscode("editor.action.revealDefinition")
+go (usage | references): user.vscode("references-view.find")
 go recent [<user.text>]:
     user.vscode("workbench.action.openRecent")
     sleep(50ms)
@@ -135,7 +144,8 @@ go recent [<user.text>]:
     sleep(250ms)
 go edit: user.vscode("workbench.action.navigateToLastEditLocation")
 
-# Bookmarks. Requires Bookmarks plugin
+# Bookmark management commands
+# Requires Bookmarks plugin
 bar marks: user.vscode("workbench.view.extension.bookmarks")
 go marks:
     user.deprecate_command("2023-06-06", "go marks", "bar marks")
@@ -144,12 +154,13 @@ toggle mark: user.vscode("bookmarks.toggle")
 go next mark: user.vscode("bookmarks.jumpToNext")
 go last mark: user.vscode("bookmarks.jumpToPrevious")
 
+# Tab management commands
 close other tabs: user.vscode("workbench.action.closeOtherEditors")
 close all tabs: user.vscode("workbench.action.closeAllEditors")
 close tabs way right: user.vscode("workbench.action.closeEditorsToTheRight")
 close tabs way left: user.vscode("workbench.action.closeEditorsToTheLeft")
 
-# Folding
+# Folding management commands
 fold that: user.vscode("editor.fold")
 unfold that: user.vscode("editor.unfold")
 fold those: user.vscode("editor.foldAllMarkerRegions")
@@ -165,7 +176,8 @@ fold five: user.vscode("editor.foldLevel5")
 fold six: user.vscode("editor.foldLevel6")
 fold seven: user.vscode("editor.foldLevel7")
 
-# Git / Github (not using verb-noun-adjective pattern, mirroring terminal commands.)
+# Git and GitHub commands
+# Not using verb-noun-adjective pattern, mirroring terminal commands
 git branch: user.vscode("git.branchFrom")
 git branch this: user.vscode("git.branch")
 git checkout [<user.text>]:
@@ -199,12 +211,8 @@ git sync: user.vscode("git.sync")
 git unstage: user.vscode("git.unstage")
 git unstage all: user.vscode("git.unstageAll")
 pull request: user.vscode("pr.create")
-# Use keyboard shortcuts because VSCode relies on when clause contexts to choose the appropriate
-# action: https://code.visualstudio.com/api/references/when-clause-contexts
-change next: key(alt-f5)
-change last: key(shift-alt-f5)
 
-# Testing
+# Testing commands
 test run: user.vscode("testing.runAtCursor")
 test run file: user.vscode("testing.runCurrentFile")
 test run all: user.vscode("testing.runAll")
@@ -219,7 +227,7 @@ test debug last: user.vscode("testing.debugLastRun")
 
 test cancel: user.vscode("testing.cancelRun")
 
-# Debugging
+# Debugging commands
 break point: user.vscode("editor.debug.action.toggleBreakpoint")
 step over: user.vscode("workbench.action.debug.stepOver")
 debug step into: user.vscode("workbench.action.debug.stepInto")
@@ -232,7 +240,7 @@ debug restart: user.vscode("workbench.action.debug.restart")
 debug console: user.vscode("workbench.debug.action.toggleRepl")
 debug clean: user.vscode("workbench.debug.panel.action.clearReplAction")
 
-# Terminal
+# Terminal management commands
 terminal external: user.vscode("workbench.action.terminal.openNativeConsole")
 terminal new: user.vscode("workbench.action.terminal.new")
 terminal next: user.vscode("workbench.action.terminal.focusNext")
@@ -248,11 +256,12 @@ terminal <number_small>: user.vscode_terminal(number_small)
 task run [<user.text>]:
     user.vscode("workbench.action.tasks.runTask")
     insert(user.text or "")
-#TODO: should this be added to linecommands?
+
+# Miscellaneous commands
 copy line down: user.vscode("editor.action.copyLinesDownAction")
 copy line up: user.vscode("editor.action.copyLinesUpAction")
 
-#Expand/Shrink AST Selection
+# Expand/Shrink AST Selection
 select less: user.vscode("editor.action.smartSelect.shrink")
 select (more | this): user.vscode("editor.action.smartSelect.expand")
 
@@ -260,7 +269,7 @@ minimap: user.vscode("editor.action.toggleMinimap")
 maximize: user.vscode("workbench.action.minimizeOtherEditors")
 restore: user.vscode("workbench.action.evenEditorWidths")
 
-#breadcrumb
+# Breadcrumb management commands
 select breadcrumb: user.vscode("breadcrumbs.focusAndSelect")
 # Use `alt-left` and `alt-right` to navigate the bread crumb
 
@@ -280,7 +289,7 @@ curse redo: user.vscode("cursorRedo")
 select word: user.vscode("editor.action.addSelectionToNextFindMatch")
 skip word: user.vscode("editor.action.moveSelectionToNextFindMatch")
 
-# jupyter
+# Jupyter commands
 cell next: user.vscode("notebook.focusNextEditor")
 cell last: user.vscode("notebook.focusPreviousEditor")
 cell run above: user.vscode("notebook.cell.executeCellsAbove")
